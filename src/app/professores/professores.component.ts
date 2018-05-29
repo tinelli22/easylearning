@@ -25,7 +25,7 @@ export class ProfessoresComponent implements OnInit {
 
   ngOnInit() {
     this.professor.nome = 'Michael'; this.professor.sobrenome = 'Tinelli'; this.professor.img = 'assets/images/mich.jpg';
-    this.professor.telefone = '(21) 979207804';
+    this.professor.telefone = '(21) 979207804'; this.professor.telefone2 = '(21) 979207804';
     this.professor.descricao = 'Aulas de programação em Java, C#, Angular e Firebase';
     this.professor.valor = 60.00;
     this.professores.push(this.professor);
