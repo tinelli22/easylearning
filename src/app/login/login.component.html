@@ -1,0 +1,13 @@
+<div class="ui-g">
+  <div class="ui-g-12 ui-sm-10">
+    <p-panel>
+        <p-header>
+            Painel de acesso
+        </p-header>
+       
+        <button pButton type="button" *ngIf="isLogado == false" label="Acessar" icon="fab fa-google-plus" (click)="login()" class="ui-button-danger"></button>
+        
+       
+    </p-panel>
+  </div>
+</div>

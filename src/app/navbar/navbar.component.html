@@ -1,21 +1,28 @@
 <nav class="navbar">
 
     <div class="container">
+      <div class="ui-g ui-fluid">
   
-      <div class="ui-g">
-  
-        <div class="ui-g-12">
+        <div class="ui-g-10 ui-sm-6">
            <a href="javascript:;" class="navbar-toggle" (click)="exibindoMenu = !exibindoMenu" > <i class="fa fa-bars"></i> </a>
           
         </div>
-          
+      
+        <div style="color: white;" class="ui-g-2 ui-sm-6" *ngIf="isLogado == true">
+          Olá, {{nome}}
+        </div>
+       
       </div>
-  
     </div>
   
     <ul class="navbar-menu" [hidden]="!exibindoMenu">
       <li class="navbar-menuitem">
        <a routerLink="/home">Home</a></li>
+       
+      <li class="navbar-menuitem">
+         <a *ngIf="isLogado == false" routerLink="/login">Acessar conta</a>
+         <a *ngIf="isLogado == true" routerLink="/login">Conta</a>
+      </li>
 
       <li  class="navbar-menuitem">
        <a routerLink="/profs">Professores</a>
@@ -25,6 +32,9 @@
           <a routerLink="/quemsomos">Quem Somos</a>
       </li>
       
+      <li *ngIf="isLogado == true" style="background-color: rgb(3, 3, 3)"  class="navbar-menuitem">
+        <a style="color: rgb(252, 2, 2)" (click)="sair()">Sair da conta</a>
+      </li>
     </ul>
   
   </nav>

@@ -1,3 +1,5 @@
+
+import { AuthServiceService } from './services/auth-service.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
@@ -16,14 +18,30 @@ import { CardModule } from 'primeng/components/card/card';
 import { SidebarModule } from 'primeng/components/sidebar/sidebar';
 import { DataListModule } from 'primeng/components/datalist/datalist';
 import { InputTextareaModule } from 'primeng/components/inputtextarea/inputtextarea';
-
+import { AngularFireModule } from 'angularfire2';
+import { AngularFireAuthModule } from 'angularfire2/auth';
+import { AngularFirestoreModule } from 'angularfire2/firestore';
+import { LoginComponent } from './login/login.component';
+import { MenubarModule } from 'primeng/components/menubar/menubar';
+import { CommonModule } from '@angular/common';
+import { ToastrModule } from 'ngx-toastr';
 
 const rotas: Routes = [
   { path: 'quemsomos', component: QuemSomosComponent},
+  { path: 'login', component: LoginComponent},
   { path: 'home', component: InfoProfComponent},
   { path: 'profs', component: ProfessoresComponent},
   { path: '**', redirectTo: 'home', pathMatch: 'full'},
 ];
+
+export const config = {
+  apiKey: 'AIzaSyCjsXbz9gofaPdjmYoQWpo-P3C6-w3Un7M',
+  authDomain: 'easylearning-20022.firebaseapp.com',
+  databaseURL: 'https://easylearning-20022.firebaseio.com',
+  projectId: 'easylearning-20022',
+  storageBucket: 'easylearning-20022.appspot.com',
+  messagingSenderId: '224713868238'
+};
 
 @NgModule({
   declarations: [
@@ -31,7 +49,8 @@ const rotas: Routes = [
     InfoProfComponent,
     NavbarComponent,
     QuemSomosComponent,
-    ProfessoresComponent
+    ProfessoresComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -44,9 +63,17 @@ const rotas: Routes = [
     CardModule,
     SidebarModule,
     DataListModule,
-    InputTextareaModule
+    InputTextareaModule,
+    AngularFireModule.initializeApp(config),
+    AngularFireAuthModule,
+    AngularFirestoreModule,
+    MenubarModule,
+    ToastrModule.forRoot(),
+    CommonModule
   ],
-  providers: [],
+  providers: [
+    AuthServiceService
+  ],
   bootstrap: [AppComponent],
   exports: [
     RouterModule
