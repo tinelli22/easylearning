@@ -1,11 +1,12 @@
-export interface Professor {
+export class Professor {
     id: string;
     nome: string;
     email: string;
-    sobrenome: string;
+    urlImg?: string;
     telefone?: string;
     telefone2?: string;
     descricao?: string;
-    valor: number;
+    profissao?: string;
+    valor?: number;
     redesSociais?: string[];
 }

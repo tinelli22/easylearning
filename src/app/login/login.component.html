@@ -1,13 +1,62 @@
 <div class="ui-g">
-  <div class="ui-g-12 ui-sm-10">
-    <p-panel>
-        <p-header>
-            Painel de acesso
-        </p-header>
-       
-        <button pButton type="button" *ngIf="isLogado == false" label="Acessar" icon="fab fa-google-plus" (click)="login()" class="ui-button-danger"></button>
-        
-       
-    </p-panel>
+  <div class="ui-g-12 ui-sm-12">
+    
+  <p-panel>
+      <p-header>
+          <div *ngIf="isLogado == true">
+              <button pButton type="button" class="ui-button-secondary" iconPos="right" label="Dados" (click)="dados = true; serv = false;" icon="fas fa-list-alt"></button>&nbsp;
+              <button pButton type="button" class="ui-button-secondary"  iconPos="right" label="Serviço" (click)="dados = false; serv = true;" icon="fas fa-archive"></button>  
+          </div>
+      </p-header>
+    <button pButton type="button" *ngIf="isLogado == false" label="Acessar" icon="fab fa-google-plus" (click)="login()" class="ui-button-danger"></button>
+    <div class="ui-g ui-fluid">
+      <form [formGroup]="form" novalidate *ngIf="isLogado == true">
+      <div *ngIf="dados == true">
+          <div class="ui-g-12 ui-md-4">
+              <div class="ui-inputgroup">
+                  <span class="ui-inputgroup-addon"><i class="fa fa-user"></i></span>
+                  <input type="text" formControlName="nome" pInputText placeholder="Nome completo">         
+              </div>
+          </div>
+
+         
+
+          <div class="ui-g-12 ui-md-4">
+              <div class="ui-inputgroup">
+                  <span class="ui-inputgroup-addon"><i class="fas fa-phone-square"></i></span>
+                  <input type="number" formControlName="telefone" pInputText placeholder="telefone">         
+              </div>
+          </div>
+      </div>
+
+      <div *ngIf="serv == true">
+          <div class="ui-g-12 ui-md-4">
+              <div class="ui-inputgroup">
+                  <span class="ui-inputgroup-addon"><i class="fas fa-book"></i></span>
+                  <input type="text" formControlName="profissao" pInputText placeholder="Professor de qual matéria">         
+              </div>
+          </div>
+
+          <div class="ui-g-12 ui-md-4">
+              <div class="ui-inputgroup">
+                  <span class="ui-inputgroup-addon"></span>
+                  <textarea [rows]="5" formControlName="descricao" [cols]="30" placeholder="Faça uma descricao" pInputTextarea autoResize="autoResize"></textarea>        
+              </div>
+          </div>
+
+          <div class="ui-g-12 ui-md-4">
+              <div class="ui-inputgroup">
+                  <span class="ui-inputgroup-addon"><i class="fas fa-money-bill-alt"></i></span>
+                  <input type="number" formControlName="valor" pInputText placeholder="valor por hora">         
+              </div>
+          </div>
+
+        </div>
+        <button pButton type="button" label="Salvar" (click)="salvar()" class="ui-button-info"></button>
+      </form>  
+      </div>
+      
+     
+  </p-panel>
   </div>
 </div>

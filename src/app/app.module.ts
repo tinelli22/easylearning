@@ -25,6 +25,9 @@ import { LoginComponent } from './login/login.component';
 import { MenubarModule } from 'primeng/components/menubar/menubar';
 import { CommonModule } from '@angular/common';
 import { ToastrModule } from 'ngx-toastr';
+import { UserServiceService } from './services/user-service.service';
+import { TabMenuModule } from 'primeng/components/tabmenu/tabmenu';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 const rotas: Routes = [
   { path: 'quemsomos', component: QuemSomosComponent},
@@ -69,10 +72,14 @@ export const config = {
     AngularFirestoreModule,
     MenubarModule,
     ToastrModule.forRoot(),
-    CommonModule
+    CommonModule,
+    TabMenuModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [
-    AuthServiceService
+    AuthServiceService,
+    UserServiceService,
   ],
   bootstrap: [AppComponent],
   exports: [
