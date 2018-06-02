@@ -1,4 +1,7 @@
+import { AuthServiceService } from './../services/auth-service.service';
+import { UserServiceService } from './../services/user-service.service';
 import { Component, OnInit } from '@angular/core';
+import { Professor } from '../model';
 
 @Component({
   selector: 'app-professores',
@@ -21,14 +24,17 @@ export class ProfessoresComponent implements OnInit {
     redesSociais: []
   };
 
-  constructor() { }
+  constructor(
+    private uService: UserServiceService,
+    private authService: AuthServiceService,
+  ) { }
 
   ngOnInit() {
-    this.professor.nome = 'Michael'; this.professor.sobrenome = 'Tinelli'; this.professor.img = 'assets/images/mich.jpg';
-    this.professor.telefone = '(21) 979207804'; this.professor.telefone2 = '(21) 979207804';
-    this.professor.descricao = 'Aulas de programação em Java, C#, Angular e Firebase';
-    this.professor.valor = 60.00;
-    this.professores.push(this.professor);
+    this.uService.getAllProfs().subscribe((data: Professor[]) => {
+      console.log(data);
+      this.professores = data;
+    });
+
   }
 
 }

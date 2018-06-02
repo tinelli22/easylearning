@@ -23,4 +23,8 @@ export class UserServiceService {
   salvarDados(prof: Professor) {
     return this.afs.collection(this.pathProf).doc(prof.id).set(JSON.parse(JSON.stringify(prof)));
   }
+
+  getAllProfs() {
+    return this.afs.collection(this.pathProf).valueChanges();
+  }
 }

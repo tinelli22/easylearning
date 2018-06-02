@@ -28,6 +28,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { UserServiceService } from './services/user-service.service';
 import { TabMenuModule } from 'primeng/components/tabmenu/tabmenu';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { DataScrollerModule } from 'primeng/components/datascroller/datascroller';
 
 const rotas: Routes = [
   { path: 'quemsomos', component: QuemSomosComponent},
@@ -75,7 +76,8 @@ export const config = {
     CommonModule,
     TabMenuModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    DataScrollerModule
   ],
   providers: [
     AuthServiceService,

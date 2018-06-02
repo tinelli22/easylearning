@@ -1,30 +1,4 @@
 <!--
-
-    <p-dataList [value]="professores" [rows]="5">
-       
-        <ng-template let-prof pTemplate="item">
-            <div class="ui-g ui-fluid prof-item">
-               
-                <div class="ui-g-6 ui-md-12" style="text-align:center; margin-left: 80px;">
-                    <img [src]="prof.img" width="100" height="120">
-                    <div class="ui-g-2 ui-sm-12" style="font-size: 20px;">{{prof.nome}} {{prof.sobrenome}}</div>
-                </div>
-                
-                <div class="ui-g-12 ui-md-12 prof-details">
-                    <div class="ui-g">
-                        <div class="ui-g-10 ui-sm-12" style="text-align: center;">
-                               {{prof.descricao}}
-                        </div>
-                        
-                        <div class="ui-g-10 ui-sm-6">{{prof.telefone}}</div>
-                        <div *ngIf="prof.telefone2.length > 0" class="ui-g-10 ui-sm-6">{{prof.telefone2}}</div>
-                    </div>
-                </div>
-            </div>
-        </ng-template>
-    </p-dataList>
-
--->
 <div class="ui-g ui-fluid">
         <div class="ui-g-12 ui-md-6">
                 <p-card title="Advanced Card" subtitle="Prof. História"  styleClass="ui-card-shadow">
@@ -53,3 +27,44 @@
                     
             </div>
 </div>
+    
+
+-->
+
+<p-dataScroller [value]="professores" [rows]="5" [loader]="loadButton">
+    <p-header>
+        Professores
+    </p-header>
+    <ng-template let-prof pTemplate="item">
+        <div class="ui-g prof-item">
+            <div class="ui-g-12 ui-md-3">
+               
+            </div>
+            <div class="ui-g-12 ui-md-12">
+                <div class="ui-g">
+                    <div class="ui-g-2 ui-sm-4"><img [src]="prof.urlImg" width="80" height="80"></div>
+                    <div class="ui-g-2 ui-sm-6">
+                        Nome: {{prof.nome}}<br />
+                        Matéria: {{prof.profissao}}<br />
+                        Valor: R$ {{prof.valor}} /h
+                        <br /><br />
+                        {{prof.descricao}}
+                    </div>
+                   
+                    <div class="ui-g-2 ui-sm-12">
+                        Email: {{prof.email}} <br />
+                        Tel: {{prof.telefone}}
+                    </div>
+
+                    
+                    
+
+                  
+                </div>
+            </div>
+        </div>
+    </ng-template>
+    <p-footer>
+        <button #loadButton type="text" *ngIf="professores.length > 5" icon="fa-refresh" pButton label="Mais"></button>
+    </p-footer>
+</p-dataScroller>

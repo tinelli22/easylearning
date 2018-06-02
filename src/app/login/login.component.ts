@@ -69,19 +69,19 @@ export class LoginComponent implements OnInit {
       ]),
   
       profissao: new FormControl(this.prof.profissao, [
-        Validators.required,
+        
         Validators.minLength(5),
         Validators.maxLength(25)
       ]),
 
       descricao: new FormControl(this.prof.descricao, [
-        Validators.required,
+       
         Validators.minLength(10),
         Validators.maxLength(200)
       ]),
 
       valor: new FormControl(this.prof.valor, [
-        Validators.required,
+       
         Validators.min(0),
         Validators.max(999)
       ])
