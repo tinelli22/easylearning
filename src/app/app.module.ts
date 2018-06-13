@@ -29,6 +29,7 @@ import { UserServiceService } from './services/user-service.service';
 import { TabMenuModule } from 'primeng/components/tabmenu/tabmenu';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DataScrollerModule } from 'primeng/components/datascroller/datascroller';
+import { HttpClientModule } from '@angular/common/http';
 
 const rotas: Routes = [
   { path: 'quemsomos', component: QuemSomosComponent},
@@ -77,7 +78,8 @@ export const config = {
     TabMenuModule,
     FormsModule,
     ReactiveFormsModule,
-    DataScrollerModule
+    DataScrollerModule,
+    HttpClientModule
   ],
   providers: [
     AuthServiceService,
@@ -89,3 +91,5 @@ export const config = {
   ]
 })
 export class AppModule { }
+
+//47c1a5ef-45ff-4826-80fc-bdd3d4adf355

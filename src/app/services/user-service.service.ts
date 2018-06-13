@@ -27,4 +27,11 @@ export class UserServiceService {
   getAllProfs() {
     return this.afs.collection(this.pathProf).valueChanges();
   }
+
+  agendarAula(prof: Professor, requisitante: Professor) {
+    return this.afs.collection(this.pathProf).doc(prof.id).collection('solicitacoes').add({
+      profOrigin: requisitante,
+      profTo: prof
+    });
+  }
 }

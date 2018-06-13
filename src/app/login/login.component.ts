@@ -34,14 +34,16 @@ export class LoginComponent implements OnInit {
         
         this.userService.buscarDados(data.uid).subscribe((dados: Professor) => {
           console.log(dados);
-          this.prof.id = dados.id;
-          this.prof.nome = dados.nome;
-          this.prof.email = data.uid;
-          this.prof.urlImg = data.photoURL;
-          this.prof.descricao = dados.descricao;
-          this.prof.valor = dados.valor;
-          this.prof.telefone = dados.telefone;
-          this.prof.profissao = dados.profissao;
+          if (dados) {
+            this.prof.id = dados.id;
+            this.prof.nome = dados.nome;
+            this.prof.email = data.uid;
+            this.prof.urlImg = data.photoURL;
+            this.prof.descricao = dados.descricao;
+            this.prof.valor = dados.valor;
+            this.prof.telefone = dados.telefone;
+            this.prof.profissao = dados.profissao;
+          }
           this.createForm();
           
         });
@@ -83,7 +85,7 @@ export class LoginComponent implements OnInit {
       valor: new FormControl(this.prof.valor, [
        
         Validators.min(0),
-        Validators.max(999)
+        Validators.max(99999)
       ])
     });
   }
