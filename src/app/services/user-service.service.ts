@@ -31,7 +31,21 @@ export class UserServiceService {
   agendarAula(prof: Professor, requisitante: Professor) {
     return this.afs.collection(this.pathProf).doc(prof.id).collection('solicitacoes').add({
       profOrigin: requisitante,
-      profTo: prof
+      profTo: prof,
+      dataSoli: new Date()
     });
   }
+
+  listAulas(id) {
+    return this.afs.collection(this.pathProf).doc(id).collection('solicitacoes').ref.orderBy('dataSoli').get();
+  }
+
+  agendar(prof: Professor, requisitante: any) {
+    return this.afs.collection(this.pathProf).doc(prof.id).collection('solicitacoes').add({
+      req: requisitante,
+      prof: prof,
+      dataSoli: new Date()
+    });
+  }
+
 }

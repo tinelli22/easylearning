@@ -1,42 +1,10 @@
-<!--
-<div class="ui-g ui-fluid">
-        <div class="ui-g-12 ui-md-6">
-                <p-card title="Advanced Card" subtitle="Prof. História"  styleClass="ui-card-shadow">
-                        <p-header>
-                            <img src="Card" src="assets/images/thhfhg.png">
-                        </p-header>
-                        <div>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error repudiandae numquam deserunt
-                            quisquam repellat libero asperiores earum nam nobis, culpa ratione quam perferendis esse, cupiditate neque quas!</div>
-                        <p-footer>
-                           
-                        </p-footer>
-                </p-card>
-                
-            </div>
-            <div class="ui-g-12 ui-md-6">
-                    <p-card title="Advanced Card" subtitle="Prof. Matemática"  styleClass="ui-card-shadow">
-                            <p-header>
-                                <img src="Card" src="assets/images/thhfhg.png">
-                            </p-header>
-                            <div>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error repudiandae numquam deserunt
-                                quisquam repellat libero asperiores earum nam nobis, culpa ratione quam perferendis esse, cupiditate neque quas!</div>
-                            <p-footer>
-                               
-                            </p-footer>
-                    </p-card>
-                    
-            </div>
-</div>
-    
-
--->
 
 <p-dataScroller [value]="professores" [rows]="5" [loader]="loadButton">
     <p-header>
         Professores
     </p-header>
-    <ng-template let-prof pTemplate="item">
-        <div class="ui-g prof-item">
+    <ng-template let-prof  pTemplate="item">
+        <div class="ui-g" *ngIf="prof.id != id">
             <div class="ui-g-12 ui-md-3">
                
             </div>
@@ -46,7 +14,7 @@
                     <div class="ui-g-2 ui-sm-8">
                         Nome: {{prof.nome}}<br />
                         Matéria: {{prof.profissao}}<br />
-                        Valor: R$ {{prof.valor}} /h
+                        Valor: R$ {{prof.valor | number:'1.2-2'}} /h
                        
                     </div>
                     <div class="ui-g-2 ui-sm-12">
@@ -58,6 +26,10 @@
                         Email: {{prof.email}} <br />
                         Tel: {{prof.telefone}}
                     </div>
+                    
+                        <div class="ui-g-6 ui-sm-12" *ngIf="isLogado == false">
+                            <button pButton type="button" class="ui-button-info" (click)="showDialog(prof)" iconPos="right" label="Agendar aula" icon="fas fa-book"></button>   
+                        </div>
 
                     
                    
@@ -71,3 +43,44 @@
         <button #loadButton type="text" *ngIf="professores.length > 5" icon="fa-refresh" pButton label="Mais"></button>
     </p-footer>
 </p-dataScroller>
+
+<div class="ui-g">
+    <div class="ui-g-12 ui-sm-12">
+    <p-dialog header="Agendar Aula" [(visible)]="display" [modal]="true" [responsive]="true" [width]="350" [minWidth]="200" [minY]="70" 
+    [baseZIndex]="10000">
+    <form [formGroup]="form" novalidate>
+            <div class="ui-g-12 ui-md-4">
+                    <div class="ui-inputgroup">
+                        <span class="ui-inputgroup-addon"><i class="fa fa-user"></i></span>
+                        <input type="text" formControlName="nome" pInputText placeholder="Nome completo">         
+                    </div>
+            </div>
+
+            <div class="ui-g-12 ui-md-4">
+                    <div class="ui-inputgroup">
+                        <span class="ui-inputgroup-addon"><i class="fas fa-phone-square"></i></span>
+                        <input type="text" mask="(00) 09000-0000" [dropSpecialCharacters]="false" formControlName="telefone" pInputText placeholder="telefone">         
+                    </div>
+            </div>
+
+            <div class="ui-g-12 ui-md-4">
+                    <div class="ui-inputgroup">
+                        <span class="ui-inputgroup-addon"><i class="fas fa-envelope"></i></span>
+                        <input type="text" formControlName="email" email pInputText placeholder="email">         
+                    </div>
+            </div>
+
+            <div class="ui-g-12 ui-md-4">
+                    <div class="ui-inputgroup">
+                        <span class="ui-inputgroup-addon"><i class="fas fa-share-square"></i></span>
+                        <input type="text" formControlName="redeSocial" pInputText placeholder="link rede social">         
+                    </div>
+            </div>
+
+            <div class="ui-g-12 ui-md-4">
+                    <button pButton type="button" class="ui-button-success" [disabled]="!form.valid" (click)="agendarAula()" iconPos="right" label="Agendar" icon="fas fa-book"></button>       
+            </div>
+    </form>      
+    </p-dialog>
+    </div>
+</div>

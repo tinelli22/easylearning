@@ -5,11 +5,13 @@ admin.initializeApp(functions.config().firebase);
 const cors = require('cors')({ origin: true });
 
 //const firebaseConfig = JSON.parse(process.env.FIREBASE_CONFIG);
-const SENDGRID_API_KEY = functions.config().sendgrid.key;
+//const SENDGRID_API_KEY = functions.config().sendgrid.key;
+const SENDGRID_API_KEY = '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';
 
 const sgMail = require('@sendgrid/mail');
 sgMail.setApiKey(SENDGRID_API_KEY);
 
+/*
 exports.firestoreEmail = functions.firestore
     .document('professores/{professoresId}/solicitacoes/{solicitacoesId}')
     .onCreate(event => {
@@ -26,7 +28,7 @@ exports.firestoreEmail = functions.firestore
                           nameReq: event.data().profOrigin.nome,
                           telReq: event.data().profOrigin.telefone,
                           emailReq: event.data().profOrigin.email,
-                          dataReq: new Date().getDate()
+                          dataReq: new Date
                           
                         }
                     };
@@ -37,10 +39,12 @@ exports.firestoreEmail = functions.firestore
 
 });
 
+
+
 exports.firestoreAlternativeEmail = functions.firestore
     .document('professores/{professoresId}/solicitacoes/{solicitacoesId}')
     .onCreate(event => {
-
+       console.log(event.params.solicitacoesId);
         const userOr = event.data().profOrigin;
         const userTo = event.data().profTo;
 
@@ -64,7 +68,7 @@ exports.firestoreAlternativeEmail = functions.firestore
                           nameReq: event.data().profOrigin.nome,
                           telReq: event.data().profOrigin.telefone,
                           emailReq: event.data().profOrigin.email,
-                          dataReq: new Date().getDate()
+                          dataReq: new Date
                           
                         }
                     };
@@ -111,4 +115,50 @@ exports.httpEmail = functions.https.onRequest((req, res) => {
 
         });
 
+});
+*/
+
+exports.firestoreTwoAlternativeEmail = functions.firestore
+    .document(`professores/{professoresId}/solicitacoes/{solicitacoesId}`)
+    .onCreate(event => {
+       //console.log(event.params.solicitacoesId);
+        
+        const userTo = event.data().prof;
+
+        const db = admin.firestore();
+
+        return db.collection('professores').doc(userTo.id)
+                 .get()
+                 .then(doc => {
+
+                    const prof = doc.data();
+
+                    const msg = {
+                        to: prof.email,
+                        from: 'michael.tinelli@soulasalle.com.br',
+                        subject:  'Easy Learning Nova Solicitação',
+                        
+                        templateId: 'c4bd72ce-6d74-4e76-a412-515ae3050e53',
+                        substitutionWrappers: ['{{', '}}'],
+                        substitutions: {
+                          name: prof.nome,
+                          nameReq: event.data().req.nome,
+                          telReq: event.data().req.telefone,
+                          emailReq: event.data().req.email,
+                          dataReq: new Date
+                          
+                        }
+                    };
+
+                    return sgMail.send(msg, (error, result) => {
+                        if (error) {
+                            console.error(error);
+                        } else {
+                            console.log(result);
+                        }
+                    })
+                })
+                .then(() => console.log('email sent!') )
+                .catch(err => console.log(err) )
+                     
 });

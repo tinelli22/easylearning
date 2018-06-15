@@ -30,6 +30,11 @@ import { TabMenuModule } from 'primeng/components/tabmenu/tabmenu';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DataScrollerModule } from 'primeng/components/datascroller/datascroller';
 import { HttpClientModule } from '@angular/common/http';
+import {NgxMaskModule} from 'ngx-mask';
+import { DialogModule } from 'primeng/components/dialog/dialog';
+import { CurrencyMaskModule } from 'ng2-currency-mask';
+import { CarouselModule } from 'primeng/components/carousel/carousel';
+
 
 const rotas: Routes = [
   { path: 'quemsomos', component: QuemSomosComponent},
@@ -79,7 +84,11 @@ export const config = {
     FormsModule,
     ReactiveFormsModule,
     DataScrollerModule,
-    HttpClientModule
+    HttpClientModule,
+    NgxMaskModule.forRoot(),
+    DialogModule,
+    CurrencyMaskModule,
+    CarouselModule,
   ],
   providers: [
     AuthServiceService,

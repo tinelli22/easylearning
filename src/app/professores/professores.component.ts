@@ -1,3 +1,5 @@
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+
 import { AuthServiceService } from './../services/auth-service.service';
 import { UserServiceService } from './../services/user-service.service';
 import { Component, OnInit } from '@angular/core';
@@ -14,18 +16,11 @@ export class ProfessoresComponent implements OnInit {
 
   professores = [];
   endpoint = 'https://us-central1-easylearning-20022.cloudfunctions.net/httpEmail';
-
-  professor = {
-    nome: '',
-    img: '',
-    disciplinas: [],
-    sobrenome: '',
-    telefone: '',
-    telefone2: '',
-    descricao: '',
-    valor: 0,
-    redesSociais: []
-  };
+  id = '';
+  isLogado = false;
+  display = false;
+  form: FormGroup;
+  prof = new Professor;
 
   constructor(
     private uService: UserServiceService,
@@ -39,44 +34,70 @@ export class ProfessoresComponent implements OnInit {
       console.log(data);
       this.professores = data;
      
+      this.authService.isLogado().subscribe((user) => {
+        if(user != null) {
+            this.id = user.uid;
+            this.isLogado = true;
+          }
+      });
+    });
+    this.createForm();
+  }
+
+
+  showDialog(prof) {
+    this.display = true;
+    this.prof = prof;
+    console.log(prof);
+    console.log(this.prof);
+  }
+
+  agendarAula() {
+    console.log(this.prof);
+    console.log(this.form.value);
+
+    const requisitante = {
+      nome: this.form.value.nome,
+      email: this.form.value.email,
+      telefone: this.form.value.telefone,
+      redeSocial: this.form.value.redeSocial,
+      dataReq: new Date
+    };
+
+    console.log(requisitante);
+
+    this.uService.agendar(this.prof, requisitante).then(() => {
+      this.toastr.success('O professor entrará em contato.', 'Aula Agendada', { positionClass: 'toast-bottom-center', timeOut: 7000});
+    })
+    .catch(() => {
+      this.toastr.error('Tente novamente.', 'Erro.', { positionClass: 'toast-bottom-center'});
     });
 
   }
 
-  agendarAula(prof: Professor) {
-    console.log(prof.id);
+  private createForm() {
+   
+    this.form = new FormGroup({
 
-    this.authService.isLogado().subscribe((user) => {
-      if(user != null) {
-        this.uService.buscarDados(user.uid).subscribe((dados: Professor) => {
-          this.uService.agendarAula(prof, dados).then(() => {
-            this.toastr.success('Aula Agendada!', 'O professor entrará em contato em breve.', { positionClass: 'toast-top-center'});
-          
-            const data = {
-              toEmail: prof.email,
-              toName: prof.nome,
-              orName: dados.nome,
-              orTel: dados.telefone,
-              orEmail: dados.email
-            };
-        
-            this.http.post(this.endpoint, data).subscribe();
-          })
-          
-          .catch(() =>  this.toastr.error('Erro ao agendar', 'Tente novamente mais tarde.', { positionClass: 'toast-top-center'}));
-        });
-      } else {
-        this.login();
-      }
+      nome: new FormControl('', [
+        Validators.required,
+        Validators.minLength(5),
+        Validators.maxLength(20)
+      ]),
+      
+      telefone: new FormControl('', [
+        Validators.required,
+     
+      ]),
+      
+      email: new FormControl('', [
+        Validators.required,
+       
+      ]),
+    
+      redeSocial: new FormControl('', [
+        Validators.required
+      ])
     });
   }
-
-  
-
-  login() {
-    this.authService.login().then(data =>
-      this.toastr.success('Você esta logado!.', 'Logado com sucesso.', { positionClass: 'toast-top-center'}))
-    .catch(error => console.error(error));
-  }
-
 }

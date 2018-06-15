@@ -20,6 +20,8 @@ export class LoginComponent implements OnInit {
   prof = new Professor;
   dados = true;
   serv = false;
+  flagAula = false;
+  items: any[] = [];
 
   constructor(
     private authService: AuthServiceService,
@@ -45,13 +47,15 @@ export class LoginComponent implements OnInit {
             this.prof.profissao = dados.profissao;
           }
           this.createForm();
-          
+          this.listarAulas(data.uid);
+
         });
       } else { this.isLogado = false; }
     });
   }
   
   ngOnInit() {
+    
   }
 
   createForm() {
@@ -96,6 +100,26 @@ export class LoginComponent implements OnInit {
     .catch(error => console.error(error));
   }
 
+  listarAulas(id) {
+    this.userService.listAulas(id).then(array => {
+      if (array.docs.length > 0) {
+        
+        array.docs.forEach(req => {
+          const profReq = {
+            id: req.data().req.id,
+            nome: req.data().req.nome,
+            email: req.data().req.email,
+            redeSocial: req.data().req.redeSocial,
+            telefone: req.data().req.telefone,
+            data: req.data().dataSoli
+          };
+
+          this.items.push(profReq);
+        });
+      }
+    });
+  }
+  
   salvar() {
     console.log(this.prof);
     this.prof.id = this.dadosAcesso.uid;

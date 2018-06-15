@@ -4,8 +4,9 @@
   <p-panel>
       <p-header>
           <div *ngIf="isLogado == true">
-              <button pButton type="button" class="ui-button-secondary" iconPos="right" label="Dados" (click)="dados = true; serv = false;" icon="fas fa-list-alt"></button>&nbsp;
-              <button pButton type="button" class="ui-button-secondary"  iconPos="right" label="Serviço" (click)="dados = false; serv = true;" icon="fas fa-archive"></button>  
+              <button pButton type="button" class="ui-button-secondary" iconPos="right" label="Dados" (click)="dados = true; serv = false; flagAula = false;" icon="fas fa-list-alt"></button>&nbsp;
+              <button pButton type="button" class="ui-button-secondary"  iconPos="right" label="Serviço" (click)="dados = false; flagAula = false; serv = true;" icon="fas fa-archive"></button>&nbsp;
+              <button pButton type="button" class="ui-button-secondary" *ngIf="items.length > 0" iconPos="right" label="Aulas" (click)="dados = false; flagAula = true; serv = false;"  icon="fas fa-chevron-circle-right"></button>&nbsp;
           </div>
       </p-header>
     <button pButton type="button" *ngIf="isLogado == false" label="Acessar" icon="fab fa-google-plus" (click)="login()" class="ui-button-danger"></button>
@@ -24,7 +25,7 @@
           <div class="ui-g-12 ui-md-4">
               <div class="ui-inputgroup">
                   <span class="ui-inputgroup-addon"><i class="fas fa-phone-square"></i></span>
-                  <input type="number" formControlName="telefone" pInputText placeholder="telefone">         
+                  <input type="text" mask="(00) 09000-0000" [dropSpecialCharacters]="false" formControlName="telefone" pInputText placeholder="telefone">         
               </div>
           </div>
       </div>
@@ -47,16 +48,53 @@
           <div class="ui-g-12 ui-md-4">
               <div class="ui-inputgroup">
                   <span class="ui-inputgroup-addon"><i class="fas fa-money-bill-alt"></i></span>
-                  <input type="number" formControlName="valor" pInputText placeholder="valor por hora">         
+                  <input type="text" formControlName="valor" pInputText placeholder="0,00"
+                  currencyMask
+                  [options]="{ prefix: '', thousands: '.', decimal: ',', allowNegative: false }">         
               </div>
           </div>
 
         </div>
-        <button pButton type="button" label="Salvar" (click)="salvar()" class="ui-button-info"></button>
-      </form>  
+        <button pButton type="button" label="Salvar" *ngIf="flagAula == false" (click)="salvar()" class="ui-button-info"></button>
+      </form>
+
       </div>
-      
-     
+    
   </p-panel>
   </div>
 </div>
+
+<div  *ngIf="items.length > 0 && flagAula == true && isLogado == true">
+        <p-carousel  headerText="Aulas solicitadas" [value]="items">
+            <ng-template let-item pTemplate="item">
+                    <div class="ui-g ui-fluid">
+                           
+                            <div class="ui-g-6 ui-sm-6">
+                              Nome: 
+                               {{item.nome}}
+                            </div>
+                            <div class="ui-g-12 ui-sm-12">
+                                
+                                Email:
+                                {{item.email}}
+                            </div>
+
+                            <div class="ui-g-12 ui-sm-12">
+                               Telefone:
+                                {{item.telefone}}
+                            </div>
+
+                            <div class="ui-g-12 ui-sm-12">
+                                Rede Social:
+                                {{item.redeSocial}}
+                            </div>
+
+                            <div class="ui-g-12 ui-sm-12">
+                                 Data:
+                                {{item.data}}
+                            </div>
+                            
+                        </div>
+            </ng-template>
+        </p-carousel>
+      </div>
